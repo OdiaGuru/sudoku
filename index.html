@@ -11,24 +11,58 @@
             font-family: 'Inter', sans-serif;
             transition: background-color 0.3s, color 0.3s;
         }
+        /* Light Mode Solarized Palette (approximations) */
+        :root {
+            --solar-base3: #fdf6e3; /* Primary background */
+            --solar-base2: #eee8d5; /* Content background */
+            --solar-base1: #93a1a1; /* UI element borders, secondary text */
+            --solar-base0: #839496; /* UI element borders, secondary text */
+            --solar-base00: #657b83; /* Body text */
+            --solar-base01: #586e75; /* Headings, strong text */
+            --solar-blue: #268bd2;
+            --solar-cyan: #2aa198;
+            --solar-green: #859900;
+            --solar-red: #dc322f;
+            --solar-orange: #cb4b16;
+        }
+
+        /* Default Light Theme using Solarized variables */
+        body {
+            background-color: var(--solar-base3);
+            color: var(--solar-base00);
+        }
+        h1 {
+            color: var(--solar-blue); /* Or --solar-cyan */
+        }
+        #timer, #theme-toggle, select#difficulty, .modal-content {
+            background-color: var(--solar-base2);
+            color: var(--solar-base01);
+            border-color: var(--solar-base1);
+        }
+        select#difficulty {
+            border-width: 1px; /* Ensure border shows on select */
+        }
+
         .sudoku-grid {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
             grid-template-rows: repeat(9, 1fr);
             width: min(90vw, 540px); /* Responsive width */
             height: min(90vw, 540px); /* Responsive height */
-            border: 3px solid; /* Border color will be set by theme */
+            border: 3px solid var(--solar-base0);
             border-radius: 8px;
             overflow: hidden; /* Ensures rounded corners clip children */
+            background-color: var(--solar-base2); /* Grid background */
         }
         .sudoku-cell {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid; /* Border color will be set by theme */
+            border: 1px solid var(--solar-base1);
             font-size: clamp(1rem, 4vw, 1.75rem); /* Responsive font size */
             font-weight: 600;
             transition: background-color 0.2s;
+            color: var(--solar-blue); /* Default for input numbers */
         }
         .sudoku-cell input {
             width: 100%;
@@ -38,90 +72,118 @@
             background-color: transparent;
             font-size: inherit;
             font-weight: inherit;
-            color: inherit;
+            color: inherit; /* Inherits from .sudoku-cell */
             outline: none;
             padding: 0;
         }
         /* Thick borders for 3x3 subgrids */
-        .sudoku-cell:nth-child(3n) { border-right-width: 3px; }
-        .sudoku-cell:nth-child(9n) { border-right-width: 1px; } /* Reset last column */
-        .sudoku-grid tr:nth-child(3n) .sudoku-cell { border-bottom-width: 3px; }
-        .sudoku-grid tr:last-child .sudoku-cell { border-bottom-width: 1px; } /* Reset last row */
+        .sudoku-cell:nth-child(3n) { border-right-width: 3px; border-right-color: var(--solar-base0); }
+        .sudoku-cell:nth-child(9n) { border-right-width: 1px; border-right-color: var(--solar-base1); }
+        .sudoku-grid tr:nth-child(3n) .sudoku-cell { border-bottom-width: 3px; border-bottom-color: var(--solar-base0); }
+        .sudoku-grid tr:last-child .sudoku-cell { border-bottom-width: 1px; border-bottom-color: var(--solar-base1); }
 
-
-        /* Specific borders for rows */
-        .sudoku-cell.row-2, .sudoku-cell.row-5 { border-bottom-width: 3px; }
-         /* Specific borders for columns */
-        .sudoku-cell.col-2, .sudoku-cell.col-5 { border-right-width: 3px; }
-
-
-        .dark .bg-slate-100 { background-color: #1e293b; } /* Dark background for body */
-        .dark .text-slate-800 { color: #e2e8f0; } /* Dark text for body */
-        .dark .bg-white { background-color: #334155; } /* Dark background for elements */
-        .dark .sudoku-grid { border-color: #64748b; }
-        .dark .sudoku-cell { border-color: #475569; }
-        .dark .sudoku-cell input { color: #e2e8f0; }
-        .dark .sudoku-cell.prefilled { color: #94a3b8; } /* Lighter for prefilled in dark */
-        .dark .sudoku-cell.error { background-color: #7f1d1d; color: #fecaca; }
-        .dark .sudoku-cell input:focus { background-color: #475569; }
-        .dark .sudoku-cell.selected { background-color: #0ea5e9; } /* Selected cell in dark mode */
-
+        .sudoku-cell.row-2, .sudoku-cell.row-5 { border-bottom-width: 3px; border-bottom-color: var(--solar-base0); }
+        .sudoku-cell.col-2, .sudoku-cell.col-5 { border-right-width: 3px; border-right-color: var(--solar-base0); }
 
         .sudoku-cell.prefilled {
+            color: var(--solar-base01); /* Darker, less prominent for prefilled */
             font-weight: 700;
         }
         .sudoku-cell.error {
-            background-color: #fecaca; /* Light red for errors */
-            color: #b91c1c; /* Darker red text for errors */
+            background-color: #ffe0e0; /* Lighter red for error background */
+            color: var(--solar-red);
         }
         .sudoku-cell input:focus {
-            background-color: #e0f2fe; /* Light blue when focused */
+            background-color: #d0e8f8; /* Soft blue focus */
         }
         .sudoku-cell.selected {
-            background-color: #7dd3fc; /* Tailwind sky-300 */
+            background-color: #b9deef; /* Softer sky blue selection */
         }
 
-        /* Button styling */
+        /* Button styling - Light Mode Solarized */
         .btn {
             @apply px-4 py-2 rounded-lg font-semibold transition-all duration-150 ease-in-out shadow-md;
         }
         .btn-primary {
-            @apply bg-sky-500 text-white hover:bg-sky-600 active:bg-sky-700;
+            background-color: var(--solar-blue);
+            color: var(--solar-base3);
         }
-        .dark .btn-primary {
-            @apply bg-sky-600 hover:bg-sky-700 active:bg-sky-800;
-        }
-        .btn-secondary {
-            @apply bg-slate-200 text-slate-700 hover:bg-slate-300 active:bg-slate-400;
-        }
-        .dark .btn-secondary {
-            @apply bg-slate-600 text-slate-100 hover:bg-slate-700 active:bg-slate-800;
-        }
-        .btn-danger {
-            @apply bg-red-500 text-white hover:bg-red-600 active:bg-red-700;
-        }
-        .dark .btn-danger {
-            @apply bg-red-600 hover:bg-red-700 active:bg-red-800;
-        }
+        .btn-primary:hover { background-color: #2075b8; } /* Darker Solarized Blue */
+        .btn-primary:active { background-color: #1a5f94; }
 
-        /* Modal Styling */
+        .btn-secondary {
+            background-color: var(--solar-base2);
+            color: var(--solar-base01);
+            border: 1px solid var(--solar-base1);
+        }
+        .btn-secondary:hover { background-color: #dcd4c4; } /* Darker Base2 */
+        .btn-secondary:active { background-color: #c9bfac; }
+
+        .btn-danger {
+            background-color: var(--solar-red);
+            color: var(--solar-base3);
+        }
+        .btn-danger:hover { background-color: #c72c2a; } /* Darker Solarized Red */
+        .btn-danger:active { background-color: #b22623; }
+
+        /* Message Area Light Mode */
+        #message-area.text-success { color: var(--solar-green); }
+        #message-area.text-error { color: var(--solar-red); }
+        #message-area.text-info { color: var(--solar-blue); }
+
+
+        /* Dark Mode Overrides - These should remain largely the same */
+        .dark body { background-color: #1e293b; color: #e2e8f0; }
+        .dark h1 { color: #38bdf8; } /* Tailwind sky-400 */
+        .dark #timer, .dark #theme-toggle, .dark select#difficulty, .dark .modal-content {
+            background-color: #334155; /* slate-700 */
+            color: #e2e8f0; /* slate-200 */
+            border-color: #475569; /* slate-600 */
+        }
+        .dark .sudoku-grid { border-color: #64748b; background-color: #334155; } /* slate-500 border, slate-700 bg */
+        .dark .sudoku-cell { border-color: #475569; color: #7dd3fc; } /* slate-600 border, sky-300 text */
+        .dark .sudoku-cell input { color: #7dd3fc; } /* sky-300 */
+        .dark .sudoku-cell.prefilled { color: #94a3b8; } /* slate-400 */
+        .dark .sudoku-cell.error { background-color: #7f1d1d; color: #fecaca; } /* red-900 bg, red-200 text */
+        .dark .sudoku-cell input:focus { background-color: #475569; } /* slate-600 */
+        .dark .sudoku-cell.selected { background-color: #0ea5e9; } /* sky-500 */
+
+        .dark .btn-primary { background-color: #0ea5e9; color: white; } /* sky-500 */
+        .dark .btn-primary:hover { background-color: #0284c7; } /* sky-600 */
+        .dark .btn-primary:active { background-color: #0369a1; } /* sky-700 */
+
+        .dark .btn-secondary { background-color: #475569; color: #e2e8f0; border-color: #64748b;} /* slate-600 bg, slate-200 text */
+        .dark .btn-secondary:hover { background-color: #525f76; }
+        .dark .btn-secondary:active { background-color: #3b4a61; }
+
+        .dark .btn-danger { background-color: #ef4444; color: white; } /* red-500 */
+        .dark .btn-danger:hover { background-color: #dc2626; } /* red-600 */
+        .dark .btn-danger:active { background-color: #b91c1c; } /* red-700 */
+
+        .dark #message-area.text-success { color: #4ade80; } /* green-400 */
+        .dark #message-area.text-error { color: #f87171; } /* red-400 */
+        .dark #message-area.text-info { color: #38bdf8; } /* sky-400 */
+
+
+        /* Modal Styling (General, background/text handled by theme) */
         .modal {
             @apply fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50;
         }
         .modal-content {
-            @apply bg-white dark:bg-slate-700 p-6 rounded-lg shadow-xl text-center;
+            /* background and text color are themed above */
+            @apply p-6 rounded-lg shadow-xl text-center;
             min-width: 300px;
         }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
 
     <div class="w-full max-w-2xl mx-auto">
         <header class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-            <h1 class="text-3xl sm:text-4xl font-bold text-sky-600 dark:text-sky-400">Sudoku</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold">Sudoku</h1>
             <div class="flex items-center gap-2 sm:gap-4">
-                <div id="timer" class="text-xl font-semibold p-2 bg-white dark:bg-slate-700 rounded-lg shadow">00:00</div>
-                <button id="theme-toggle" class="p-2 rounded-lg bg-white dark:bg-slate-700 shadow">
+                <div id="timer" class="text-xl font-semibold p-2 rounded-lg shadow">00:00</div>
+                <button id="theme-toggle" class="p-2 rounded-lg shadow">
                     <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-6.364-.386l1.591-1.591M3 12h2.25m.386-6.364l1.591 1.591" />
                     </svg>
@@ -132,17 +194,17 @@
             </div>
         </header>
 
-        <div id="sudoku-grid" class="sudoku-grid mx-auto shadow-xl dark:shadow-slate-900">
+        <div id="sudoku-grid" class="sudoku-grid mx-auto shadow-xl">
             </div>
 
         <div class="mt-6 flex flex-wrap justify-center gap-2 sm:gap-4">
             <div class="flex items-center gap-2">
                 <label for="difficulty" class="font-semibold">Difficulty:</label>
-                <select id="difficulty" class="p-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 shadow focus:ring-2 focus:ring-sky-500">
+                <select id="difficulty" class="p-2 rounded-lg shadow focus:ring-2 focus:ring-[var(--solar-blue)] dark:focus:ring-sky-500">
                     <option value="easy">Easy</option>
                     <option value="medium" selected>Medium</option>
                     <option value="hard">Hard</option>
-                    </select>
+                </select>
             </div>
             <button id="new-game" class="btn btn-primary">New Game</button>
             <button id="check-solution" class="btn btn-secondary">Check Solution</button>
@@ -187,23 +249,17 @@
 
 
         // --- Sudoku Generation ---
-
-        // Function to create an empty N x N grid
         function createEmptyGrid() {
             return Array.from({ length: N }, () => Array(N).fill(0));
         }
 
-        // Check if a number can be placed in a given cell
         function isSafe(board, row, col, num) {
-            // Check row
             for (let x = 0; x < N; x++) {
                 if (board[row][x] === num) return false;
             }
-            // Check column
             for (let x = 0; x < N; x++) {
                 if (board[x][col] === num) return false;
             }
-            // Check 3x3 subgrid
             const startRow = row - row % 3;
             const startCol = col - col % 3;
             for (let i = 0; i < 3; i++) {
@@ -214,29 +270,27 @@
             return true;
         }
 
-        // Solve Sudoku using backtracking (used for generation and solving)
         function solveSudoku(board) {
             for (let i = 0; i < N; i++) {
                 for (let j = 0; j < N; j++) {
                     if (board[i][j] === 0) {
-                        const numbers = shuffleArray([...Array(N).keys()].map(n => n + 1)); // Shuffle numbers for randomness
+                        const numbers = shuffleArray([...Array(N).keys()].map(n => n + 1));
                         for (let num of numbers) {
                             if (isSafe(board, i, j, num)) {
                                 board[i][j] = num;
                                 if (solveSudoku(board)) {
                                     return true;
                                 }
-                                board[i][j] = 0; // Backtrack
+                                board[i][j] = 0; 
                             }
                         }
-                        return false; // No valid number found
+                        return false; 
                     }
                 }
             }
-            return true; // All cells filled
+            return true; 
         }
         
-        // Helper to shuffle an array (Fisher-Yates shuffle)
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -245,22 +299,17 @@
             return array;
         }
 
-
-        // Generate a new Sudoku puzzle
         function generatePuzzle(difficulty) {
             grid = createEmptyGrid();
-            solveSudoku(grid); // Fill the grid with a valid solution
+            solveSudoku(grid); 
 
-            // Store the solution
             solution = grid.map(row => [...row]);
 
-            // Remove numbers to create the puzzle based on difficulty
             let cellsToRemove;
             switch (difficulty) {
-                case 'easy': cellsToRemove = 35; break; // Approx 46 clues
-                case 'medium': cellsToRemove = 45; break; // Approx 36 clues
-                case 'hard': cellsToRemove = 55; break; // Approx 26 clues
-                // case 'expert': cellsToRemove = 60; break; // Approx 21 clues
+                case 'easy': cellsToRemove = 35; break; 
+                case 'medium': cellsToRemove = 45; break; 
+                case 'hard': cellsToRemove = 55; break; 
                 default: cellsToRemove = 45;
             }
 
@@ -269,7 +318,14 @@
                 const row = Math.floor(Math.random() * N);
                 const col = Math.floor(Math.random() * N);
                 if (grid[row][col] !== 0) {
+                    const temp = grid[row][col];
                     grid[row][col] = 0;
+                    
+                    // Check if puzzle still has a unique solution (simplified check for this example)
+                    // A more robust check would involve counting solutions, which is complex.
+                    // For this example, we assume removing cells maintains solvability.
+                    // If you need strict unique solution generation, a more advanced algorithm is needed.
+                    
                     attempts--;
                 }
             }
@@ -278,7 +334,7 @@
 
         // --- Grid Rendering and Interaction ---
         function renderGrid() {
-            gridElement.innerHTML = ''; // Clear previous grid
+            gridElement.innerHTML = ''; 
             clearMessage();
             removeErrorHighlights();
 
@@ -288,25 +344,25 @@
                     cell.classList.add('sudoku-cell');
                     cell.dataset.row = i;
                     cell.dataset.col = j;
-
-                    // Add classes for thick borders
-                    if ((i + 1) % 3 === 0 && i < N - 1) cell.classList.add('border-b-3');
-                    if ((j + 1) % 3 === 0 && j < N - 1) cell.classList.add('border-r-3');
                     
-                    // Add classes for subgrid borders (alternative way)
-                    if (i === 2 || i === 5) cell.classList.add('row-' + i);
+                    // Add classes for subgrid borders using the CSS variables for color
+                    if ((i + 1) % 3 === 0 && i < N - 1) cell.style.borderBottomWidth = '3px';
+                    if ((j + 1) % 3 === 0 && j < N - 1) cell.style.borderRightWidth = '3px';
+                    // For specific row/col classes, colors are handled by .sudoku-cell and its border-color var
+                    if (i === 2 || i === 5) cell.classList.add('row-' + i); // class for potential specific styling
                     if (j === 2 || j === 5) cell.classList.add('col-' + j);
 
 
                     if (grid[i][j] !== 0) {
                         cell.textContent = grid[i][j];
-                        cell.classList.add('prefilled', 'text-slate-700', 'dark:text-slate-300');
+                        cell.classList.add('prefilled');
                     } else {
                         const input = document.createElement('input');
-                        input.type = 'number';
-                        input.min = '1';
-                        input.max = '9';
-                        input.classList.add('text-sky-600', 'dark:text-sky-400');
+                        input.type = 'number'; // Changed from text to number for mobile numeric keyboard
+                        input.inputMode = 'numeric'; // Helps with mobile keyboards
+                        input.pattern = "[1-9]"; // Basic pattern
+                        input.maxLength = 1; // Only one digit
+                        
                         input.addEventListener('input', (e) => handleInput(e, i, j));
                         input.addEventListener('focus', () => handleCellFocus(cell));
                         input.addEventListener('blur', () => handleCellBlur(cell));
@@ -319,35 +375,36 @@
 
         function handleCellFocus(cellElement) {
             if (selectedCell) {
-                selectedCell.classList.remove('selected', 'bg-sky-300', 'dark:bg-sky-700');
+                selectedCell.classList.remove('selected');
             }
             selectedCell = cellElement;
-            selectedCell.classList.add('selected', 'bg-sky-300', 'dark:bg-sky-700');
+            selectedCell.classList.add('selected');
         }
 
         function handleCellBlur(cellElement) {
-            // Don't remove 'selected' immediately on blur if an input inside is focused
-            // This is handled by the next focus event.
-            // If needed, could add a small delay or check if focus moved to another cell's input.
+            // No specific action on blur needed now, focus on next cell handles deselection.
         }
 
-
         function handleInput(event, row, col) {
-            const value = parseInt(event.target.value);
-            removeErrorHighlights(); // Clear previous errors on new input
+            const inputElement = event.target;
+            let value = inputElement.value;
+            removeErrorHighlights(); 
             clearMessage();
 
-            if (isNaN(value) || value < 1 || value > 9) {
-                event.target.value = ''; // Clear invalid input
-                grid[row][col] = 0; // Update internal grid representation
+            // Keep only the last entered digit if multiple are pasted or entered rapidly
+            if (value.length > 1) {
+                value = value.slice(-1);
+                inputElement.value = value;
+            }
+            
+            const numValue = parseInt(value);
+
+            if (value === '' || isNaN(numValue) || numValue < 1 || numValue > 9) {
+                inputElement.value = ''; 
+                grid[row][col] = 0; 
                 return;
             }
-            grid[row][col] = value; // Update internal grid representation
-
-            // Optional: Auto-check on input (can be performance intensive)
-            // if (isBoardFull()) {
-            //     checkFullSolution();
-            // }
+            grid[row][col] = numValue; 
         }
 
         // --- Game Logic ---
@@ -368,14 +425,11 @@
             for (let i = 0; i < N; i++) {
                 for (let j = 0; j < N; j++) {
                     const cellElement = gridElement.children[i * N + j];
-                    const cellValue = grid[i][j]; // Value from internal grid (user input or prefilled)
+                    const cellValue = grid[i][j]; 
                     
                     if (cellValue === 0) {
                         isFull = false;
-                        // Optionally highlight empty cells if you want to enforce completion
-                        // cellElement.classList.add('error');
-                        // errors++;
-                        continue; // Skip empty cells for correctness check against solution
+                        continue; 
                     }
 
                     if (cellValue !== solution[i][j]) {
@@ -387,7 +441,7 @@
 
             if (!isFull && errors === 0) {
                  showMessage("Board is not yet complete. Keep going!", "info");
-                 return false; // Not a win if not full
+                 return false; 
             }
             if (errors === 0 && isFull) {
                 showMessage("Congratulations! Puzzle Solved!", "success");
@@ -398,7 +452,7 @@
                 showMessage(`Found ${errors} error(s). Keep trying!`, "error");
                 return false;
             }
-            return false; // Default case
+            return false; 
         }
         
         function isBoardFull() {
@@ -412,11 +466,9 @@
             return true;
         }
 
-
         function solveAndDisplayPuzzle() {
-            grid = solution.map(row => [...row]); // Restore the full solution
-            renderGrid(); // Re-render with the solution
-            // Update input fields as well
+            grid = solution.map(row => [...row]); 
+            renderGrid(); 
             const cells = gridElement.children;
             for (let i = 0; i < N; i++) {
                 for (let j = 0; j < N; j++) {
@@ -424,17 +476,16 @@
                     if (cellElement.querySelector('input')) {
                         cellElement.querySelector('input').value = solution[i][j];
                     } else {
-                        cellElement.textContent = solution[i][j]; // For initially prefilled cells (shouldn't change)
+                        cellElement.textContent = solution[i][j]; 
                     }
                     cellElement.classList.remove('error');
-                    cellElement.classList.add('prefilled', 'text-slate-700', 'dark:text-slate-300'); // Style as prefilled
+                    cellElement.classList.add('prefilled'); 
                 }
             }
             stopTimer();
             showMessage("Puzzle Solved!", "success");
             showModal("Puzzle Solved", "The solution is now displayed.");
         }
-
 
         function removeErrorHighlights() {
             const cells = gridElement.querySelectorAll('.sudoku-cell');
@@ -443,7 +494,7 @@
 
         // --- Timer ---
         function startTimer() {
-            stopTimer(); // Clear any existing timer
+            stopTimer(); 
             secondsElapsed = 0;
             timerElement.textContent = formatTime(secondsElapsed);
             timerInterval = setInterval(() => {
@@ -467,11 +518,11 @@
             messageArea.textContent = msg;
             messageArea.className = 'mt-4 text-center font-semibold text-lg'; // Reset classes
             if (type === "success") {
-                messageArea.classList.add('text-green-600', 'dark:text-green-400');
+                messageArea.classList.add('text-success');
             } else if (type === "error") {
-                messageArea.classList.add('text-red-600', 'dark:text-red-400');
-            } else {
-                messageArea.classList.add('text-sky-600', 'dark:text-sky-400');
+                messageArea.classList.add('text-error');
+            } else { // info
+                messageArea.classList.add('text-info');
             }
         }
         function clearMessage() {
@@ -488,11 +539,9 @@
             resultModal.classList.add('hidden');
         }
 
-
         // --- Theme Toggle ---
         function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            const isDarkMode = document.documentElement.classList.contains('dark');
+            const isDarkMode = document.documentElement.classList.toggle('dark');
             localStorage.setItem('sudoku-theme', isDarkMode ? 'dark' : 'light');
             updateThemeIcons(isDarkMode);
         }
@@ -509,15 +558,15 @@
 
         function applyInitialTheme() {
             const savedTheme = localStorage.getItem('sudoku-theme');
-            if (savedTheme === 'dark' || (savedTheme === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (savedTheme === null && prefersDark)) {
                 document.documentElement.classList.add('dark');
                 updateThemeIcons(true);
             } else {
-                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.remove('dark'); // Ensure light if not dark
                 updateThemeIcons(false);
             }
         }
-
 
         // --- Event Listeners ---
         newGameButton.addEventListener('click', startNewGame);
@@ -526,74 +575,77 @@
         themeToggle.addEventListener('click', toggleTheme);
         modalCloseBtn.addEventListener('click', () => {
             hideModal();
-            startNewGame(); // Start a new game when closing modal
+            startNewGame(); 
         });
 
-        // Keyboard navigation for input cells
         gridElement.addEventListener('keydown', (e) => {
-            if (!selectedCell || !selectedCell.querySelector('input')) return;
-
-            const input = selectedCell.querySelector('input');
+            if (!selectedCell ) return;
+            
+            const currentInput = selectedCell.querySelector('input');
             const row = parseInt(selectedCell.dataset.row);
             const col = parseInt(selectedCell.dataset.col);
 
             let nextRow = row, nextCol = col;
+            let moved = false;
 
-            if (e.key === 'ArrowUp') {
-                nextRow = Math.max(0, row - 1);
-                e.preventDefault();
-            } else if (e.key === 'ArrowDown') {
-                nextRow = Math.min(N - 1, row + 1);
-                e.preventDefault();
-            } else if (e.key === 'ArrowLeft') {
-                nextCol = Math.max(0, col - 1);
-                e.preventDefault();
-            } else if (e.key === 'ArrowRight') {
-                nextCol = Math.min(N - 1, col + 1);
-                e.preventDefault();
-            } else if (e.key >= '1' && e.key <= '9') {
-                // Allow direct input, handled by 'input' event
-                // Potentially auto-move to next cell after input
-            } else if (e.key === 'Backspace' || e.key === 'Delete') {
-                input.value = '';
-                grid[row][col] = 0; // Update internal grid
-                // Optionally move to previous cell on backspace if empty
-            } else if (!['Tab', 'Shift'].includes(e.key) && (e.key.length === 1 && !e.ctrlKey && !e.metaKey) ) {
-                 // Prevent other characters if not 1-9, allow control keys
+            if (e.key === 'ArrowUp') { nextRow = Math.max(0, row - 1); moved = true; e.preventDefault(); } 
+            else if (e.key === 'ArrowDown') { nextRow = Math.min(N - 1, row + 1); moved = true; e.preventDefault(); } 
+            else if (e.key === 'ArrowLeft') { nextCol = Math.max(0, col - 1); moved = true; e.preventDefault(); } 
+            else if (e.key === 'ArrowRight') { nextCol = Math.min(N - 1, col + 1); moved = true; e.preventDefault(); } 
+            else if (currentInput && e.key >= '1' && e.key <= '9') {
+                // Allow direct input, handled by 'input' event.
+                // To prevent double input if cell already has a number:
+                currentInput.value = ''; // Clear before new input if you want to overwrite
+            } else if (currentInput && (e.key === 'Backspace' || e.key === 'Delete')) {
+                currentInput.value = '';
+                grid[row][col] = 0; 
+                // No e.preventDefault() here to allow default backspace behavior if needed elsewhere
+            } else if (currentInput && !['Tab', 'Shift'].includes(e.key) && (e.key.length === 1 && !e.ctrlKey && !e.metaKey) ) {
                 if (!(e.key >= '0' && e.key <= '9')) { // Allow 0 for clearing, but input handler will fix
                     e.preventDefault();
                 }
             }
 
-
-            if (nextRow !== row || nextCol !== col) {
-                let nextCellElement = gridElement.querySelector(`.sudoku-cell[data-row='${nextRow}'][data-col='${nextCol}']`);
+            if (moved) {
+                let targetRow = nextRow;
+                let targetCol = nextCol;
+                let nextCellElement = gridElement.querySelector(`.sudoku-cell[data-row='${targetRow}'][data-col='${targetCol}']`);
+                
+                // Skip prefilled cells when navigating with arrows
                 while(nextCellElement && nextCellElement.classList.contains('prefilled')) {
-                    // Skip prefilled cells
-                    if (e.key === 'ArrowUp') nextRow = Math.max(0, nextRow - 1);
-                    else if (e.key === 'ArrowDown') nextRow = Math.min(N - 1, nextRow + 1);
-                    else if (e.key === 'ArrowLeft') nextCol = Math.max(0, nextCol - 1);
-                    else if (e.key === 'ArrowRight') nextCol = Math.min(N - 1, nextCol + 1);
+                    if (e.key === 'ArrowUp') targetRow = Math.max(0, targetRow - 1);
+                    else if (e.key === 'ArrowDown') targetRow = Math.min(N - 1, targetRow + 1);
+                    else if (e.key === 'ArrowLeft') targetCol = Math.max(0, targetCol - 1);
+                    else if (e.key === 'ArrowRight') targetCol = Math.min(N - 1, targetCol + 1);
                     
-                    if( (e.key === 'ArrowUp' || e.key === 'ArrowLeft') && (nextRow === 0 && nextCol === 0 && gridElement.querySelector(`.sudoku-cell[data-row='0'][data-col='0']`).classList.contains('prefilled')) ) break; // stuck at start
-                    if( (e.key === 'ArrowDown' || e.key === 'ArrowRight') && (nextRow === N-1 && nextCol === N-1 && gridElement.querySelector(`.sudoku-cell[data-row='${N-1}'][data-col='${N-1}']`).classList.contains('prefilled')) ) break; // stuck at end
+                    // If we are at a boundary and the cell is prefilled, and we try to move further, break
+                    if (targetRow === nextRow && targetCol === nextCol && (
+                        (e.key === 'ArrowUp' && targetRow === 0) ||
+                        (e.key === 'ArrowDown' && targetRow === N - 1) ||
+                        (e.key === 'ArrowLeft' && targetCol === 0) ||
+                        (e.key === 'ArrowRight' && targetCol === N - 1)
+                    )) {
+                        break; 
+                    }
 
+                    nextRow = targetRow; // update for next iteration if still prefilled
+                    nextCol = targetCol;
 
-                    nextCellElement = gridElement.querySelector(`.sudoku-cell[data-row='${nextRow}'][data-col='${nextCol}']`);
-                    if (!nextCellElement) break; // Boundary reached
+                    nextCellElement = gridElement.querySelector(`.sudoku-cell[data-row='${targetRow}'][data-col='${targetCol}']`);
+                    if (!nextCellElement) break; // Reached edge of grid
                 }
-
 
                 if (nextCellElement && nextCellElement.querySelector('input')) {
                     nextCellElement.querySelector('input').focus();
+                } else if (nextCellElement) { // It's a prefilled cell, but we landed on it.
+                    handleCellFocus(nextCellElement); // "Select" it visually even if no input
                 }
             }
         });
 
-
         // --- Initial Load ---
         applyInitialTheme();
-        startNewGame(); // Start a game on page load
+        startNewGame(); 
 
     </script>
 </body>
